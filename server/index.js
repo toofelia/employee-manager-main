@@ -6,6 +6,7 @@ const express = require('express');
 // import the path utils from Node.
 const path = require('path')
 const cors = require('cors')
+const cookSession = require('cookie-session')
 
 // Importing our Login Service Used With the POST Login Route
 const loginService = require('./services/loginService')
@@ -29,6 +30,10 @@ app.use(cors())
  app.use(express.urlencoded({extended:true}))
  app.use(express.json())
 
+//Session Middleware
+app.use(cookSession())
+
+
  // Setup Template Engine
  app.set('view engine', 'ejs')
  app.set('views', path.join(__dirname, './views'))
@@ -47,7 +52,9 @@ app.use(express.static(path.join(__dirname, "../client"), {extensions: ["html", 
  // Access Form Data uses the POST method from the req body.
  // Tell Express that you want to access POST Request body
  // Setup   app.use(express.urlencoded({extended:true}))
- 
+ app.get('/dashboard', (req,res)=>{
+   res.render('dashboard')
+ })
 
  app.get('/login', (req, res)=>{
    // user template placed inside the views directory
